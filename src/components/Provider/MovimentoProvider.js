@@ -4,7 +4,7 @@ const api = {
   async findAll() {
     try {
       const response = await Api.get('/movimentos');
-      return response.data;
+      return response;
     } catch (err) {
       console.log(err);
     }

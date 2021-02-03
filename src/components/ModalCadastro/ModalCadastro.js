@@ -2,17 +2,17 @@ import React from 'react';
 import { Button, Modal } from 'semantic-ui-react';
 
 export default function ModalCadastro({
-  open,
-  setOpen,
+  cadastroOpen,
+  setCadastroOpen,
   titulo,
-  limpar,
   formulario,
+  limpar,
 }) {
   return (
     <Modal
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      open={open}
+      onClose={() => setCadastroOpen(false)}
+      onOpen={() => setCadastroOpen(true)}
+      open={cadastroOpen}
       trigger={
         <Button primary onClick={limpar}>
           Adicionar
