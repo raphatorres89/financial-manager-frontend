@@ -53,7 +53,6 @@ export default function FormReceitas({
     initialValues: movimentoSelecionado || receitaDefault,
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
       values.tipo = 'RECEITA';
       if (values.id) {
         await update(values);
@@ -135,28 +134,32 @@ export default function FormReceitas({
               <Button floated="right" type="submit" primary>
                 Salvar
               </Button>
-              <Button
-                floated="right"
-                color="red"
-                onClick={(event) => {
-                  event.preventDefault();
-                  setOpen(true);
-                }}
-              >
-                Excluir
-              </Button>
-              <Confirm
-                header="Excluir receita"
-                content={values.nome}
-                cancelButton="Cancelar"
-                confirmButton="Excluir"
-                open={open}
-                onCancel={() => setOpen(false)}
-                onConfirm={() => {
-                  deletar(values);
-                  setOpen(false);
-                }}
-              />
+              {movimentoSelecionado && (
+                <>
+                  <Button
+                    floated="right"
+                    color="red"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setOpen(true);
+                    }}
+                  >
+                    Excluir
+                  </Button>
+                  <Confirm
+                    header="Excluir receita"
+                    content={values.nome}
+                    cancelButton="Cancelar"
+                    confirmButton="Excluir"
+                    open={open}
+                    onCancel={() => setOpen(false)}
+                    onConfirm={() => {
+                      deletar(values);
+                      setOpen(false);
+                    }}
+                  />
+                </>
+              )}
             </Item.Extra>
           </Item.Content>
         </Item>

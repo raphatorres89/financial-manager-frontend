@@ -180,28 +180,32 @@ export default function FormDespesas({
               <Button floated="right" type="submit" primary>
                 Salvar
               </Button>
-              <Button
-                floated="right"
-                color="red"
-                onClick={(event) => {
-                  event.preventDefault();
-                  setOpen(true);
-                }}
-              >
-                Excluir
-              </Button>
-              <Confirm
-                header="Excluir despesa"
-                content={values.nome}
-                cancelButton="Cancelar"
-                confirmButton="Excluir"
-                open={open}
-                onCancel={() => setOpen(false)}
-                onConfirm={() => {
-                  deletar(values);
-                  setOpen(false);
-                }}
-              />
+              {movimentoSelecionado && (
+                <>
+                  <Button
+                    floated="right"
+                    color="red"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setOpen(true);
+                    }}
+                  >
+                    Excluir
+                  </Button>
+                  <Confirm
+                    header="Excluir despesa"
+                    content={values.nome}
+                    cancelButton="Cancelar"
+                    confirmButton="Excluir"
+                    open={open}
+                    onCancel={() => setOpen(false)}
+                    onConfirm={() => {
+                      deletar(values);
+                      setOpen(false);
+                    }}
+                  />
+                </>
+              )}
             </Item.Extra>
           </Item.Content>
         </Item>

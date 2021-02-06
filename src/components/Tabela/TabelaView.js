@@ -23,6 +23,11 @@ export default function TabelaView({
       </Table.Header>
 
       <Table.Body>
+        {estrutura.movimentos.length === 0 && (
+          <Table.Row>
+            <Table.Cell colSpan={estrutura.labels.length}>Nenhum movimento cadastrado</Table.Cell>
+          </Table.Row>
+        )}
         {estrutura.movimentos.map((movimento) => (
           <Table.Row key={movimento.nome}>
             {estrutura.labels.map(({ name, tipo, align }) => {
@@ -41,18 +46,20 @@ export default function TabelaView({
         ))}
       </Table.Body>
 
-      <Table.Footer>
-        <Table.Row>
-          {estrutura[0] && estrutura.labels.map(({ field }) => {
-            return (
-              <Table.HeaderCell key={field} textAlign="right">
-                {renderFooter(field)}
-              </Table.HeaderCell>
-            );
-          })}
-          <Table.HeaderCell />
-        </Table.Row>
-      </Table.Footer>
+      {estrutura.movimentos.length > 0 && (
+        <Table.Footer>
+          <Table.Row>
+            {estrutura.labels.map(({ field }) => {
+              return (
+                <Table.HeaderCell key={field} textAlign="right">
+                  {renderFooter(field)}
+                </Table.HeaderCell>
+              );
+            })}
+            <Table.HeaderCell />
+          </Table.Row>
+        </Table.Footer>
+      )}
     </Table>
   );
 }
