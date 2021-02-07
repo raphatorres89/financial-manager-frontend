@@ -1,9 +1,9 @@
 import Api from '../../utils/Api';
 
 const api = {
-  async findAll() {
+  async findAll(mes, ano) {
     try {
-      const response = await Api.get('/movimentos');
+      const response = await Api.get(`/movimentos?year=${ano}&month=${mes}`);
       return response;
     } catch (err) {
       console.log(err);

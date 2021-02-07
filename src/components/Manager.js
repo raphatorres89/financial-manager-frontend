@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Tab } from 'semantic-ui-react';
+import { Grid, Tab } from 'semantic-ui-react';
 import FormDespesas from './Formulario/FormDespesas';
 import FormReceitas from './Formulario/FormReceitas';
 import ManagerView from './ManagerView';
 import API from './Provider/MovimentoProvider';
+import SeletorMes from './SeletorMes/SeletorMes';
 
 export default function Manager() {
+  const [data, setData] = useState(new Date());
   const [movimentos, setMovimentos] = useState(null);
   const [cadastroOpen, setCadastroOpen] = useState(false);
   const [movimentoSelecionado, setMovimentoSelecionado] = useState(null);
 
   useEffect(() => {
-    API.findAll().then((res) => {
+    API.findAll(data.getUTCMonth() + 1, data.getUTCFullYear()).then((res) => {
       setMovimentos(res.data);
     });
-  }, []);
+  }, [data]);
 
   function filterMovimentos(tipo) {
     if (movimentos) {
@@ -137,5 +139,18 @@ export default function Manager() {
     },
   ];
 
-  return <Tab panes={panes} />;
+  return (
+    <Grid>
+      <Grid.Row>
+        <Grid.Column textAlign="center">
+          <SeletorMes {...{ data, setData }} />
+        </Grid.Column>
+      </Grid.Row>
+      <Grid.Row>
+        <Grid.Column>
+          <Tab panes={panes} />
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  );
 }
