@@ -132,7 +132,24 @@ export default function FormDespesas({
           }
         />
       </Form.Group>
-      <Form.Field required>
+
+      <Form.Field
+        label="Valor"
+        name="valor"
+        control="input"
+        type="number"
+        max={9999.99}
+        min={0.01}
+        step={0.01}
+        onChange={handleChange}
+        error={
+          touched.valor && errors.valor
+            ? { content: errors.valor, pointing: 'above' }
+            : null
+        }
+        required
+      />
+      {/* <Form.Field required>
         <label>Valor</label>
         <Input
           label={{ basic: true, content: 'R$' }}
@@ -152,7 +169,7 @@ export default function FormDespesas({
               : null
           }
         ></Input>
-      </Form.Field>
+      </Form.Field> */}
       <Form.Field>
         <Checkbox
           inline="true"

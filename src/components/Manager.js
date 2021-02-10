@@ -5,6 +5,7 @@ import FormReceitas from './Formulario/FormReceitas';
 import ManagerView from './ManagerView';
 import API from './Provider/MovimentoProvider';
 import SeletorMes from './SeletorMes/SeletorMes';
+import Totais from './Totais/Totais';
 
 export default function Manager() {
   const [data, setData] = useState(new Date());
@@ -14,7 +15,7 @@ export default function Manager() {
 
   useEffect(() => {
     API.findAll(data.getUTCMonth() + 1, data.getUTCFullYear()).then((res) => {
-      setMovimentos(res.data);
+      setMovimentos(res && res.data ? res.data : []);
     });
   }, [data]);
 
@@ -149,6 +150,7 @@ export default function Manager() {
       <Grid.Row>
         <Grid.Column>
           <Tab panes={panes} />
+          <Totais {...{ movimentos }} />
         </Grid.Column>
       </Grid.Row>
     </Grid>
