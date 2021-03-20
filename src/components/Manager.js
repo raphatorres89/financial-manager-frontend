@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Grid, Tab } from 'semantic-ui-react';
-import FormDespesas from './Formulario/FormDespesas';
-import FormReceitas from './Formulario/FormReceitas';
-import ManagerView from './ManagerView';
-import API from './Provider/MovimentoProvider';
-import SeletorMes from './SeletorMes/SeletorMes';
-import Totais from './Totais/Totais';
+import React, { useEffect, useState } from "react";
+import { Grid, Tab } from "semantic-ui-react";
+import FormDespesas from "./Formulario/FormDespesas";
+import FormReceitas from "./Formulario/FormReceitas";
+import ManagerView from "./ManagerView";
+import API from "./Provider/MovimentoProvider";
+import SeletorMes from "./SeletorMes/SeletorMes";
+import Totais from "./Totais/Totais";
 
 export default function Manager() {
   const [data, setData] = useState(new Date());
@@ -27,30 +27,41 @@ export default function Manager() {
   }
 
   const estruturaDespesas = {
-    color: 'red',
+    color: "red",
     labels: [
-      { name: 'nome', field: 'Nome', tipo: 'string', align: 'left' },
-      { name: 'parcela', field: 'Parcela', tipo: 'string', align: 'center' },
+      { name: "nome", field: "Nome", tipo: "string", align: "left" },
+      { name: "parcela", field: "Parcela", tipo: "string", align: "center" },
       {
-        name: 'vencimento',
-        field: 'Vencimento',
-        tipo: 'date',
-        align: 'right',
+        name: "vencimento",
+        field: "Vencimento",
+        tipo: "date",
+        align: "right",
       },
-      { name: 'valor', field: 'Valor', tipo: 'number', align: 'right' },
-      { name: 'isPago', field: 'Pago', tipo: 'icon', align: 'center' },
+      { name: "valor", field: "Valor", tipo: "number", align: "right" },
+      { name: "isPago", field: "Pago", tipo: "icon", align: "center" },
     ],
-    movimentos: filterMovimentos('DESPESA'),
+    movimentos: filterMovimentos("DESPESA"),
   };
 
   const estruturaReceitas = {
-    color: 'green',
+    color: "green",
     labels: [
-      { name: 'nome', field: 'Nome', tipo: 'string', align: 'left' },
-      { name: 'parcela', field: 'Parcela', tipo: 'string', align: 'center' },
-      { name: 'valor', field: 'Valor', tipo: 'number', align: 'right' },
+      { name: "nome", field: "Nome", tipo: "string", align: "left" },
+      { name: "parcela", field: "Parcela", tipo: "string", align: "center" },
+      { name: "valor", field: "Valor", tipo: "number", align: "right" },
     ],
-    movimentos: filterMovimentos('RECEITA'),
+    movimentos: filterMovimentos("RECEITA"),
+  };
+
+  function somarValor(tipo) {
+    let filtrados = filterMovimentos(tipo);
+    if (filtrados === null || filtrados.length === 0) return 0;
+    return filtrados.map((a) => a.valor).reduce((a, b) => a + b);
+  }
+
+  const totais = {
+    despesas: somarValor("DESPESA"),
+    receitas: somarValor("RECEITA"),
   };
 
   function abrirModal(movimento) {
@@ -90,18 +101,18 @@ export default function Manager() {
 
   const formDespesas = (
     <FormDespesas
-      {...{ save, update, deletar, setCadastroOpen, movimentoSelecionado }}
+      {...{ data, save, update, deletar, setCadastroOpen, movimentoSelecionado }}
     />
   );
   const formReceitas = (
     <FormReceitas
-      {...{ save, update, deletar, setCadastroOpen, movimentoSelecionado }}
+      {...{ data, save, update, deletar, setCadastroOpen, movimentoSelecionado }}
     />
   );
 
   const panes = [
     {
-      menuItem: 'Despesas',
+      menuItem: "Despesas",
       render: () => (
         <Tab.Pane>
           <ManagerView
@@ -111,7 +122,7 @@ export default function Manager() {
               abrirModal,
               cadastroOpen,
               setCadastroOpen,
-              titulo: 'Despesas',
+              titulo: "Despesas",
               limpar,
               movimentoSelecionado,
               setMovimentoSelecionado,
@@ -121,7 +132,7 @@ export default function Manager() {
       ),
     },
     {
-      menuItem: 'Receitas',
+      menuItem: "Receitas",
       render: () => (
         <Tab.Pane>
           <ManagerView
@@ -131,7 +142,7 @@ export default function Manager() {
               abrirModal,
               cadastroOpen,
               setCadastroOpen,
-              titulo: 'Receitas',
+              titulo: "Receitas",
               limpar,
             }}
           />
@@ -143,14 +154,14 @@ export default function Manager() {
   return (
     <Grid>
       <Grid.Row>
-        <Grid.Column textAlign="center">
+        <Grid.Column textAlign="center" style={{paddingTop: 20}}>
           <SeletorMes {...{ data, setData }} />
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>
         <Grid.Column>
           <Tab panes={panes} />
-          <Totais {...{ movimentos }} />
+          <Totais {...{ totais }} />
         </Grid.Column>
       </Grid.Row>
     </Grid>

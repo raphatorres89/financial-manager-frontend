@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Button,
   Checkbox,
@@ -6,11 +6,13 @@ import {
   Form,
   Input,
   Item,
-} from 'semantic-ui-react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+} from "semantic-ui-react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { dataAmericana } from "./../../utils/Formatador";
 
 export default function FormReceitas({
+  data,
   save,
   update,
   deletar,
@@ -20,25 +22,27 @@ export default function FormReceitas({
   const [open, setOpen] = useState(false);
 
   const receitaDefault = {
-    nome: '',
-    valor: '0.00',
-    parcela: '',
+    nome: "",
+    valor: "0.00",
+    parcela: "",
     isMedia: false,
-    tipo: 'RECEITA',
+    isPago: false,
+    vencimento: dataAmericana(data),
+    tipo: "RECEITA",
   };
 
   const validationSchema = Yup.object().shape({
     nome: Yup.string()
-      .min(2, 'Nome muito pequeno')
-      .max(99, 'Nome muito grande')
-      .required('Nome é obrigatório'),
+      .min(2, "Nome muito pequeno")
+      .max(99, "Nome muito grande")
+      .required("Nome é obrigatório"),
     valor: Yup.number()
-      .min(0.01, 'Valor deve ser maior que 0,00')
-      .max(9999.99, 'Valor deve ser menor que 9.999,99')
-      .required('Valor é obrigatório'),
+      .min(0.01, "Valor deve ser maior que 0,00")
+      .max(9999.99, "Valor deve ser menor que 9.999,99")
+      .required("Valor é obrigatório"),
     parcela: Yup.string()
       .trim()
-      .matches(/\b\d{1,2}\/\d{1,2}\b/, 'Formato deve ser, por exemplo: 1/3')
+      .matches(/\b\d{1,2}\/\d{1,2}\b/, "Formato deve ser, por exemplo: 1/3")
       .nullable(),
   });
 
@@ -53,7 +57,7 @@ export default function FormReceitas({
     initialValues: movimentoSelecionado || receitaDefault,
     validationSchema,
     onSubmit: async (values) => {
-      values.tipo = 'RECEITA';
+      values.tipo = "RECEITA";
       if (values.id) {
         await update(values);
       } else {
@@ -77,7 +81,7 @@ export default function FormReceitas({
         onChange={handleChange}
         error={
           touched.nome && errors.nome
-            ? { content: errors.nome, pointing: 'above' }
+            ? { content: errors.nome, pointing: "above" }
             : null
         }
       />
@@ -92,31 +96,26 @@ export default function FormReceitas({
         onChange={handleChange}
         error={
           touched.parcela && errors.parcela
-            ? { content: errors.parcela, pointing: 'above' }
+            ? { content: errors.parcela, pointing: "above" }
             : null
         }
       />
-      <Form.Field required>
-        <label>Valor</label>
-        <Input
-          label={{ basic: true, content: 'R$' }}
-          labelPosition="left"
-          type="number"
-          id="valor"
-          name="valor"
-          min={0.0}
-          max={9999.99}
-          step={0.01}
-          placeholder="0,00"
-          value={parseFloat(values.valor).toFixed(2)}
-          onChange={handleChange}
-          error={
-            touched.valor && errors.valor
-              ? { content: errors.valor, pointing: 'above' }
-              : null
-          }
-        ></Input>
-      </Form.Field>
+      <Form.Field
+        label="Valor"
+        name="valor"
+        control="input"
+        type="number"
+        max={9999.99}
+        min={0.01}
+        step={0.01}
+        onChange={handleChange}
+        error={
+          touched.valor && errors.valor
+            ? { content: errors.valor, pointing: "above" }
+            : null
+        }
+        required
+      />
       <Form.Field>
         <Checkbox
           inline="true"

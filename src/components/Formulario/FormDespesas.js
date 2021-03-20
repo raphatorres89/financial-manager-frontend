@@ -14,6 +14,7 @@ import { parseISO } from 'date-fns';
 import { dataAmericana } from './../../utils/Formatador';
 
 export default function FormDespesas({
+  data,
   save,
   update,
   deletar,
@@ -21,9 +22,9 @@ export default function FormDespesas({
   movimentoSelecionado,
 }) {
   const [open, setOpen] = useState(false);
-  const today = new Date();
-  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-  const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  const currentDate = data;
+  const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
   const despesaDefault = {
     nome: '',
     valor: '0.00',
@@ -149,27 +150,6 @@ export default function FormDespesas({
         }
         required
       />
-      {/* <Form.Field required>
-        <label>Valor</label>
-        <Input
-          label={{ basic: true, content: 'R$' }}
-          labelPosition="left"
-          type="number"
-          id="valor"
-          name="valor"
-          min={0.0}
-          max={9999.99}
-          step={0.01}
-          placeholder="0,00"
-          value={parseFloat(values.valor).toFixed(2)}
-          onChange={handleChange}
-          error={
-            touched.valor && errors.valor
-              ? { content: errors.valor, pointing: 'above' }
-              : null
-          }
-        ></Input>
-      </Form.Field> */}
       <Form.Field>
         <Checkbox
           inline="true"
