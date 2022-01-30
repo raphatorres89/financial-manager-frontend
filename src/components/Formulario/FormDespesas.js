@@ -143,6 +143,7 @@ export default function FormDespesas({
         min={0.01}
         step={0.01}
         onChange={handleChange}
+        value={values.valor}
         error={
           touched.valor && errors.valor
             ? { content: errors.valor, pointing: 'above' }

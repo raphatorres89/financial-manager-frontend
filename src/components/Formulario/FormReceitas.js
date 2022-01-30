@@ -38,7 +38,7 @@ export default function FormReceitas({
       .required("Nome é obrigatório"),
     valor: Yup.number()
       .min(0.01, "Valor deve ser maior que 0,00")
-      .max(9999.99, "Valor deve ser menor que 9.999,99")
+      .max(99999.99, "Valor deve ser menor que 99.999,99")
       .required("Valor é obrigatório"),
     parcela: Yup.string()
       .trim()
@@ -105,9 +105,10 @@ export default function FormReceitas({
         name="valor"
         control="input"
         type="number"
-        max={9999.99}
+        max={99999.99}
         min={0.01}
         step={0.01}
+        value={values.valor}
         onChange={handleChange}
         error={
           touched.valor && errors.valor

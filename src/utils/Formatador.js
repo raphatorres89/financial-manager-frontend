@@ -6,7 +6,7 @@ export function dinheiro(valor) {
 }
 
 export function dataBrasileira(valor) {
-  return new Intl.DateTimeFormat('pt-BR').format(new Date(valor));
+  return new Intl.DateTimeFormat('pt-BR', {timeZone: 'UTC'}).format(new Date(valor));
 }
 
 export function dataAmericana(valor) {

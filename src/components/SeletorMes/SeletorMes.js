@@ -3,11 +3,11 @@ import { Button, Icon } from 'semantic-ui-react';
 
 export default function SeletorMes({ data, setData }) {
   function aumentarMes() {
-    setData(new Date(data.setMonth(data.getMonth() + 1)));
+    setData(new Date(data.getFullYear(), data.getMonth() + 1, 1));
   }
 
   function diminuirMes() {
-    setData(new Date(data.setMonth(data.getMonth() - 1)));
+    setData(new Date(data.getFullYear(), data.getMonth() - 1, 1));
   }
 
   return (
